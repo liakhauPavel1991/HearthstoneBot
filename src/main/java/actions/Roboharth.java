@@ -1,12 +1,8 @@
 package actions;
 
 import imageTools.Image;
-import pictureActions.Rectangles;
-import points.Point;
-
 import java.awt.*;
 import java.awt.event.InputEvent;
-import java.awt.image.BufferedImage;
 
 public class Roboharth {
     public static Robot robot;

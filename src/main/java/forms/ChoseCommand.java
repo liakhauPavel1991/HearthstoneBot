@@ -9,10 +9,10 @@ public class ChoseCommand extends BaseForm{
     private static final Rectangle choseCommand = new Rectangle(1440, 880, 20,20);
 
     public void choseCommand(){
-        isIt(choseCommandStrStorage, choseCommand, waiting);
+        isExist(choseCommandStrStorage, choseCommand, waiting);
         robot.move(choseCommand);
         robot.clickAndClick();
-        if(isIt(choseCommandStrStorage, choseCommand)){
+        if(isExist(choseCommandStrStorage, choseCommand)){
             choseCommand();
         }
         sleep(mapLoading);

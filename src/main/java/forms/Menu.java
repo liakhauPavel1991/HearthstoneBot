@@ -22,4 +22,19 @@ public class Menu extends BaseForm{
         robot.click();
         sleep(choseBattleLoading);
     }
+
+    public boolean isMenuHere(){
+        return isExist(menuBtnStr, menuBtn);
+    }
+
+    public boolean isSurrenderButtonExist(){
+        if(isMenuHere()){
+            robot.move(menuBtn);
+            robot.click();
+            sleep(500);
+        }
+        boolean is = isExist(surrenderBtnStr, surrenderBtn);
+        robot.move(menuBtn);
+        return is;
+    }
 }

@@ -1,5 +1,7 @@
 package points;
 
+import java.awt.*;
+
 public class Points {
     //menu
     public static Point choseBattle = new Point(1500, 815);
@@ -7,36 +9,7 @@ public class Points {
     public static Point exceptBands = new Point(800, 610);
     public static Point startBattle = new Point(1500, 870);
     //arena
-    //1 hero
-    public static Point onlyOneHero = new Point(970, 1000);
-    //2 heroes
-    public static Point firstFrom2 = new Point(900,1000);
-    public static Point secondFrom2 = new Point(1050, 1000);
-    //3 heroes
-    public static Point firstFrom3 = new Point(820, 1000);
-    public static Point secondFrom3 = new Point(970, 1000);
-    public static Point thirdFrom3 = new Point(1070, 1000);
-    //4 heroes
-    public static Point firstFrom4 = new Point(750, 1000);
-    public static Point secondFrom4 = new Point(900, 1000);
-    public static Point thirdFrom4 = new Point(1050, 1000);
-    public static Point fourthFrom4 = new Point(1170, 1000);
-    //5 heroes
-    public static Point firstFrom5 = new Point(750, 1000);
-    public static Point secondFrom5 = new Point(850, 1000);
-    public static Point thirdFrom5 = new Point(920, 1000);
-    public static Point fourthFrom5 = new Point(1050, 1000);
-    public static Point fifthFrom5 = new Point(1150, 1000);
-    //6 heroes
-    public static Point firstFrom6 = new Point(720, 1000);
-    public static Point secondFrom6 = new Point(820, 1000);
-    public static Point thirdFrom6 = new Point(900, 1000);
-    public static Point fourthFrom6 = new Point(1000, 1000);
-    public static Point fifthFrom6 = new Point(1080, 1000);
-    public static Point sixthFrom6 = new Point(1200, 1000);
-    //table heroes position
-    public static Point rightTablePosition = new Point(1150, 600);
-    public static Point leftTablePosition = new Point(750, 600);
+
 
 
     // 3 heroes

@@ -1,9 +1,11 @@
 package actions;
 
-import points.Point;
 import points.Points;
 
-public class Opening {
+import java.awt.*;
+
+
+public class Opening {/*
     private static actions.Roboharth robot = new actions.Roboharth();
 
     public static void opening(int heroCount, int first, int second, int third){
@@ -29,7 +31,7 @@ public class Opening {
         CommonAction.sleep(150);
         robot.press();
         CommonAction.sleep(300);
-        robot.move(Points.rightTablePosition);
+        robot.move(rightTablePosition);
         CommonAction.sleep(100);
         robot.unpress();
         CommonAction.sleep(millis);
@@ -39,15 +41,15 @@ public class Opening {
         Point position = null;
         switch (heroCount){
             case 1:
-                position = Points.onlyOneHero;
+                position = onlyOneHero;
                 break;
             case 2:
                 switch (who) {
                     case 1:
-                        position = Points.firstFrom2;
+                        position = firstFrom2;
                         break;
                     case 2:
-                        position = Points.secondFrom2;
+                        position = secondFrom2;
                         break;
                 }
                 break;
@@ -123,5 +125,5 @@ public class Opening {
                 break;
         }
         return position;
-    }
+    }*/
 }

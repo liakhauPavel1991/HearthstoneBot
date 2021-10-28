@@ -10,10 +10,10 @@ public class ChoseBattle extends BaseForm{
     private static final String choseEnemyBandImg = PropertyReader.getProperty(PropertyReader.dataFilePath, "choseEnemyBand");
 
     public void choseBattle(){
-        isIt(choseEnemyBandImg, choseEnemyBand, waiting);
+        isExist(choseEnemyBandImg, choseEnemyBand, waiting);
         robot.move(choseEnemyBand);
         robot.clickAndClick();
-        if(isIt(choseEnemyBandImg, choseEnemyBand)){
+        if(isExist(choseEnemyBandImg, choseEnemyBand)){
             choseBattle();
         }
         sleep(choseCommandLoading);

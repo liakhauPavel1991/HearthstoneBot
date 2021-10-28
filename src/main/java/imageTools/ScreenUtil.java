@@ -2,8 +2,6 @@ package imageTools;
 
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
-import points.Point;
-import points.ScreenDimensions;
 
 import javax.imageio.ImageIO;
 import java.awt.*;

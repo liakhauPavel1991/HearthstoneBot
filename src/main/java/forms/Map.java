@@ -12,10 +12,10 @@ public class Map extends BaseForm{
     private static final Rectangle lookCommand = new Rectangle(700, 990, 20,20);
 
     public void startBattle(){
-        isIt(playBtnStr, playBtn, waiting);
+        isExist(playBtnStr, playBtn, waiting);
         robot.move(playBtn);
         robot.clickAndClick();
-        if(isIt(playBtnStr, playBtn)){
+        if(isExist(playBtnStr, playBtn)){
             startBattle();
         }
         sleep(battleLoading);

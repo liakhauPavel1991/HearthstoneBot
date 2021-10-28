@@ -2,9 +2,7 @@ import actions.Hero;
 import actions.Opening;
 import actions.Roboharth;
 import actions.CommonAction;
-import forms.BattleField;
-import forms.ChoseBattle;
-import forms.ChoseCommand;
+import forms.*;
 import forms.Map;
 import forms.Menu;
 import imageTools.ScreenUtil;
@@ -13,6 +11,7 @@ import utils.readers.PropertyReader;
 import utils.readers.ScriptCreator;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
@@ -22,7 +21,7 @@ public class main {
     public static void main(String[] args) throws IOException, AWTException, ClassNotFoundException {
         CommonAction.sleep(1000);
 
-/*
+       /*
         String fileName = "surrenderBtn";
         Rectangle loadedBattleField = new Rectangle(950, 370, 20, 10);
         ScriptCreator.create(fileName, loadedBattleField);
@@ -33,6 +32,7 @@ public class main {
         Map map = new Map();
         BattleField battleField = new BattleField();
         Menu menu = new Menu();
+        BattleHeroes battleHeroes = new BattleHeroes();
 
         boolean isSomethingHappened = false;
 
@@ -45,31 +45,20 @@ public class main {
             choseCommand.choseCommand();
             map.startBattle();
 
-            if(!battleField.isBattleFieldLoaded()){
-                ScriptCreator.saveJPEG("loadedF2", BattleField.loadedBattleField);
-                menu.surrender();
-                isSomethingHappened = true;
-            }
-            if(!isSomethingHappened){
-                Opening.opening(4, 1, 2, 4);
-                //   ScreenUtil.saveFullScreenshot("after opening " + i);
-                CommonAction.turn(5000);
+            battleField.opening(4, 1, 2, 4);
+            battleField.turn();
 
-                Hero.firstAbility(500);
-                Hero.firstAbilityInFirstEnemy(500);
-                Hero.firstAbilityInSecondEnemy(1500);
-                CommonAction.turn(17000);
+            battleHeroes.fight(1);
+            battleHeroes.fight(1,1);
+            battleHeroes.fight(1,2);
+            battleField.sleep(1000);
+            CommonAction.turn(17000);
 
-                Hero.firstAbility(500);
-                Hero.thirdAbility(500);
-                Hero.secondAbility(1500);
-                CommonAction.turn(14000);
-            }
-
-
-
-
-            //    ScreenUtil.saveFullScreenshot("after fight " + i);
+            battleHeroes.fight(1);
+            battleHeroes.fight(3);
+            battleHeroes.fight(2);
+            battleField.sleep(1000);
+            CommonAction.turn(14000);
 
             CommonAction.acceptWin(8500);
             //    ScreenUtil.saveFullScreenshot("after accepting " + i);
