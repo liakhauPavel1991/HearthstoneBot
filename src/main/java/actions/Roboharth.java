@@ -1,9 +1,12 @@
 package actions;
 
+import imageTools.Image;
+import pictureActions.Rectangles;
 import points.Point;
 
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.awt.image.BufferedImage;
 
 public class Roboharth {
     public static Robot robot;
@@ -16,6 +19,9 @@ public class Roboharth {
         }
     }
 
+    public Image getImage(Rectangle rectangle){
+        return new Image(robot.createScreenCapture(rectangle));
+    }
 
     public void click(){
         robot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
@@ -53,6 +59,11 @@ public class Roboharth {
 
     public void move(Point point){
         robot.mouseMove(point.x, point.y);
+        sleep(250);
+    }
+
+    public void move(Rectangle rectangle){
+        robot.mouseMove(rectangle.x, rectangle.y);
         sleep(250);
     }
 

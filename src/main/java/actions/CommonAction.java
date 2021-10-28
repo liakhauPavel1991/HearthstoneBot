@@ -1,12 +1,11 @@
 package actions;
 
 import points.*;
-import utils.ScreenUtil;
 
 import java.awt.*;
 import java.io.IOException;
 
-public class Step {
+public class CommonAction {
     private static actions.Roboharth robot = new actions.Roboharth();
 
     public static void choseBattle(int millis){
@@ -145,12 +144,6 @@ public class Step {
         robot.clickAndClick();
         sleep(millis);
     }
-
-    public static void choseSecondBattle(){
-
-    }
-
-
 
 
     public static void sleep(int millis){

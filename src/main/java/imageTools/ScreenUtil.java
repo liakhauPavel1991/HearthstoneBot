@@ -1,8 +1,5 @@
-package utils;
+package imageTools;
 
-
-import actions.Roboharth;
-import aquality.selenium.browser.AqualityServices;
 import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 import points.Point;
@@ -14,6 +11,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Base64;
 
 
@@ -21,11 +19,6 @@ public class ScreenUtil {
 
     public static void saveFullScreenshot(String fileName) throws AWTException, IOException {
         ImageIO.write(getFullScreen(), "jpeg", new File(fileName + ".jpeg"));
-    }
-
-    public static void saveScrPiece(String fileName, Point point) throws AWTException, IOException {
-        BufferedImage piece = getFullScreen().getSubimage(point.x, point.y, ScreenDimensions.heroInMenu.width ,ScreenDimensions.heroInMenu.height);
-        ImageIO.write(piece, "jpeg", new File(fileName + ".jpeg"));
     }
 
     public static void saveScrPiece(String fileName, Rectangle rectangle) throws AWTException, IOException {
@@ -36,6 +29,10 @@ public class ScreenUtil {
     public static void saveScrPiece(String fileName, Point point, Dimension dimension) throws AWTException, IOException {
         BufferedImage piece = getFullScreen().getSubimage(point.x, point.y, dimension.width ,dimension.height);
         ImageIO.write(piece, "jpeg", new File(fileName + ".jpeg"));
+    }
+
+    public static void saveImage(String fileName, BufferedImage bufferedImage) throws AWTException, IOException {
+        ImageIO.write(bufferedImage, "jpeg", new File(fileName + ".jpeg"));
     }
 
     private static BufferedImage getFullScreen() throws AWTException {
@@ -67,28 +64,21 @@ public class ScreenUtil {
         return byteArray.toByteArray();
     }
 
-
-
-
-    public static String captureToBase64() {
-
-        Rectangle screenSize = new Rectangle(Toolkit.getDefaultToolkit().getScreenSize());
-        BufferedImage screenCapture = null;
-        String base64Encoded = "";
-
-        try {
-            screenCapture = new Robot().createScreenCapture(screenSize);
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            ImageIO.write(screenCapture, "jpg", baos);
-            baos.flush();
-            byte[] encodeBase64 = Base64.getEncoder().encode(baos.toByteArray());
-            base64Encoded = new String(encodeBase64);
-            baos.close();
-        } catch (AWTException | IOException e) {
-            e.getMessage();
+    private static ArrayList imageAsIntArr(BufferedImage image){
+        ArrayList arrayList = new ArrayList();
+        for (int height = 0; height < image.getHeight(); height++){
+            for(int width = 0; width < image.getWidth(); width++){
+                arrayList.add(image.getRGB(width, height));
+            }
         }
+        return arrayList;
+    }
 
-        return base64Encoded;
+
+    public static void write(BufferedImage image) {
+        System.out.println(image);
+        System.out.println(imageAsIntArr(image));
+
     }
 
 }

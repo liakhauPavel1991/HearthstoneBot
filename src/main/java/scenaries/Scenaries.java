@@ -1,46 +1,46 @@
 package scenaries;
 
-import actions.Step;
+import actions.CommonAction;
 
 public class Scenaries {
     public static void startGame(){
-        Step.choseBattle(2000);
-        Step.choseBand(6500);
-        Step.startBattle(20000);
+        CommonAction.choseBattle(2000);
+        CommonAction.choseBand(6500);
+        CommonAction.startBattle(20000);
     }
 
     public static void putHero_First_1_Second_3_Third_2(){
-        Step.firstHeroOnTable(350);
-        Step.thirdHeroOnTable(350);
-        Step.secondHeroOnTable(3000);
-        Step.turn(5000);
+        CommonAction.firstHeroOnTable(350);
+        CommonAction.thirdHeroOnTable(350);
+        CommonAction.secondHeroOnTable(3000);
+        CommonAction.turn(5000);
     }
 
     public static void fight_First_1_Second_2_third_3(int millis){
-        Step.firstAbility(400);
-        Step.secondAbility(400);
-        Step.thirdAbility(1500);
-        Step.turn(millis);
+        CommonAction.firstAbility(400);
+        CommonAction.secondAbility(400);
+        CommonAction.thirdAbility(1500);
+        CommonAction.turn(millis);
     }
 
     public static void fight_First_1_Second_2_Third_2(int millis){
-        Step.firstAbility(500);
-        Step.secondAbility(500);
-        Step.secondAbility(1500);
-        Step.turn(millis);
+        CommonAction.firstAbility(500);
+        CommonAction.secondAbility(500);
+        CommonAction.secondAbility(1500);
+        CommonAction.turn(millis);
     }
 
     public static void fight_First_1_Second_2_Third_1(int millis){
-        Step.firstAbility(500);
-        Step.secondAbility(500);
-        Step.firstAbilityInFirstEnemy(1500);
-        Step.turn(millis);
+        CommonAction.firstAbility(500);
+        CommonAction.secondAbility(500);
+        CommonAction.firstAbilityInFirstEnemy(1500);
+        CommonAction.turn(millis);
     }
 
     public static void endGame(){
-        Step.acceptWin(7500);
-        Step.takePower(4800);
-        Step.backFromBattle(5000);
+        CommonAction.acceptWin(7500);
+        CommonAction.takePower(4800);
+        CommonAction.backFromBattle(5000);
     }
 
     public static void sleep(int millis){

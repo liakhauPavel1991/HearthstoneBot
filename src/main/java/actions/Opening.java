@@ -26,13 +26,13 @@ public class Opening {
 
     private static void heroOnTable(Point point, int millis){
         robot.move(point);
-        Step.sleep(150);
+        CommonAction.sleep(150);
         robot.press();
-        Step.sleep(300);
+        CommonAction.sleep(300);
         robot.move(Points.rightTablePosition);
-        Step.sleep(100);
+        CommonAction.sleep(100);
         robot.unpress();
-        Step.sleep(millis);
+        CommonAction.sleep(millis);
     }
 
     private static Point positions(int heroCount, int who){

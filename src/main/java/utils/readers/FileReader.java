@@ -1,8 +1,5 @@
 package utils.readers;
 
-import points.Point;
-
-import java.awt.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -19,19 +16,9 @@ public class FileReader {
         }
     }
 
-    public static void writeInFile(String str) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
+    public static void writeInFile(String filePath, String str) throws IOException {
+        BufferedWriter writer = new BufferedWriter(new FileWriter(filePath, true));
         writer.write(str);
-        writer.flush();
-        writer.close();
-    }
-
-    public static void writeInFile(byte[] array) throws IOException {
-        BufferedWriter writer = new BufferedWriter(new FileWriter(file, true));
-        writer.write("\narray\n");
-        for(int i = 0; i < array.length; i++){
-            writer.write(array[i] + ", ");
-        }
         writer.flush();
         writer.close();
     }
@@ -47,20 +34,6 @@ public class FileReader {
         return contentBuilder.toString();
     }
 
-    public static void write(String str){
-
-    }
-
-    public static void clearFile(String filePath){
-        PrintWriter writer = null;
-        try {
-            writer = new PrintWriter(filePath);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-        writer.print("");
-        writer.close();
-    }
 
 
 

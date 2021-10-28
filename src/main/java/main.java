@@ -1,24 +1,89 @@
 import actions.Hero;
 import actions.Opening;
 import actions.Roboharth;
-import actions.Step;
-import pictureActions.Rectangles;
-import points.Point;
-import points.Points;
+import actions.CommonAction;
+import forms.BattleField;
+import forms.ChoseBattle;
+import forms.ChoseCommand;
+import forms.Map;
+import forms.Menu;
+import imageTools.ScreenUtil;
 import scenaries.Scenaries;
-import utils.ScreenUtil;
-import utils.readers.FileReader;
 import utils.readers.PropertyReader;
+import utils.readers.ScriptCreator;
 
 import java.awt.*;
-import java.io.IOException;
-import java.util.Date;
+import java.io.*;
+import java.util.*;
 
 public class main {
     public static Roboharth robot = new Roboharth();
 
-    public static void main(String[] args) throws IOException, AWTException {
-        Step.sleep(1000);
+    public static void main(String[] args) throws IOException, AWTException, ClassNotFoundException {
+        CommonAction.sleep(1000);
+
+/*
+        String fileName = "surrenderBtn";
+        Rectangle loadedBattleField = new Rectangle(950, 370, 20, 10);
+        ScriptCreator.create(fileName, loadedBattleField);
+*/
+
+        ChoseBattle choseBattle = new ChoseBattle();
+        ChoseCommand choseCommand = new ChoseCommand();
+        Map map = new Map();
+        BattleField battleField = new BattleField();
+        Menu menu = new Menu();
+
+        boolean isSomethingHappened = false;
+
+        for (int i = 0; i < 1000; i++) {
+            System.out.println(new Date() + " " + i);
+
+            //  ScreenUtil.saveFullScreenshot("start " + i);
+            //Scenaries.startGame();
+            choseBattle.choseBattle();
+            choseCommand.choseCommand();
+            map.startBattle();
+
+            if(!battleField.isBattleFieldLoaded()){
+                ScriptCreator.saveJPEG("loadedF2", BattleField.loadedBattleField);
+                menu.surrender();
+                isSomethingHappened = true;
+            }
+            if(!isSomethingHappened){
+                Opening.opening(4, 1, 2, 4);
+                //   ScreenUtil.saveFullScreenshot("after opening " + i);
+                CommonAction.turn(5000);
+
+                Hero.firstAbility(500);
+                Hero.firstAbilityInFirstEnemy(500);
+                Hero.firstAbilityInSecondEnemy(1500);
+                CommonAction.turn(17000);
+
+                Hero.firstAbility(500);
+                Hero.thirdAbility(500);
+                Hero.secondAbility(1500);
+                CommonAction.turn(14000);
+            }
+
+
+
+
+            //    ScreenUtil.saveFullScreenshot("after fight " + i);
+
+            CommonAction.acceptWin(8500);
+            //    ScreenUtil.saveFullScreenshot("after accepting " + i);
+            CommonAction.takePower(5000);
+        //    ScreenUtil.saveFullScreenshot("after takinPower " + i);
+            CommonAction.backFromBattle(4000);
+        }
+
+    }
+
+}
+
+
+
 /*
         int i = 0;
         String name = "lvl_7 дерево мудрости";
@@ -28,41 +93,14 @@ public class main {
         } else {
             ScreenUtil.saveFullScreenshot("full_" + name);
         }
-*/
 
 
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(new Date() + " " + i);
-
-      //  ScreenUtil.saveFullScreenshot("start " + i);
-            Scenaries.startGame();
-
-            Opening.opening(4, 2, 3, 4);
-        ScreenUtil.saveFullScreenshot("after opening " + i);
-            Step.turn(5000);
-
-            Hero.firstAbility(500);
-            Hero.firstAbilityInFirstEnemy(500);
-            Hero.firstAbilityInSecondEnemy(1500);
-            Step.turn(17000);
-
-            Hero.firstAbility(500);
-            Hero.thirdAbility(500);
-            Hero.secondAbility(1500);
-            Step.turn(14000);
-
-    //    ScreenUtil.saveFullScreenshot("after fight " + i);
-
-            Step.acceptWin(8500);
-    //    ScreenUtil.saveFullScreenshot("after accepting " + i);
-            Step.takePower(5000);
-        ScreenUtil.saveFullScreenshot("after takinPower " + i);
-            Step.backFromBattle(4000);
 
 
-        }
-    }
-}
+
+
+        }*/
+
 
 
 
