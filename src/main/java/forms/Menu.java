@@ -12,7 +12,7 @@ public class Menu extends BaseForm{
     private static final String menuBtnStr = PropertyReader.getProperty(PropertyReader.dataFilePath, "menuBtn");
     private static final String surrenderBtnStr = PropertyReader.getProperty(PropertyReader.dataFilePath, "surrenderBtn");
 
-    public void surrender(){
+    public static void surrender(){
         robot.move(menuBtn);
         robot.click();
         sleep(300);
@@ -23,11 +23,11 @@ public class Menu extends BaseForm{
         sleep(choseBattleLoading);
     }
 
-    public boolean isMenuHere(){
+    public static boolean isMenuHere(){
         return isThatImageExist(menuBtnStr, menuBtn);
     }
 
-    public boolean isSurrenderButtonExist(){
+    public static boolean isSurrenderButtonExist(){
         if(isMenuHere()){
             robot.move(menuBtn);
             robot.click();

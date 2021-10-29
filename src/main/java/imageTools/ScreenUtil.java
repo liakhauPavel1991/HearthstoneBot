@@ -1,7 +1,5 @@
 package imageTools;
 
-import com.sun.image.codec.jpeg.JPEGCodec;
-import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 import javax.imageio.ImageIO;
 import java.awt.*;
@@ -48,28 +46,7 @@ public class ScreenUtil {
         return new Robot().createScreenCapture(screenRectangle);
     }
 
-    public static String getScrPieceAsString(Point point, Dimension dimension) throws AWTException, IOException {
-        BufferedImage piece = getFullScreen().getSubimage(point.x, point.y, dimension.width ,dimension.height);
-        return Base64.getEncoder().encodeToString(imageToByteArray(piece));
-    }
 
-    public static String getScrPieceAsString(Rectangle rectangle) throws AWTException, IOException {
-        BufferedImage piece = new Robot().createScreenCapture(rectangle);
-        return Base64.getEncoder().encodeToString(imageToByteArray(piece));
-    }
-
-    public static byte[] getScrPieceAsByteArray(Rectangle rectangle) throws AWTException, IOException {
-        BufferedImage piece = new Robot().createScreenCapture(rectangle);
-        return imageToByteArray(piece);
-    }
-
-
-    private static byte[] imageToByteArray(BufferedImage image) throws IOException {
-        ByteArrayOutputStream byteArray = new ByteArrayOutputStream();
-        JPEGImageEncoder encoder = JPEGCodec.createJPEGEncoder(byteArray);
-        encoder.encode(image);
-        return byteArray.toByteArray();
-    }
 
     private static ArrayList imageAsIntArr(BufferedImage image){
         ArrayList arrayList = new ArrayList();

@@ -1,6 +1,5 @@
 package utils.readers;
 
-
 import java.io.IOException;
 import java.util.Properties;
 

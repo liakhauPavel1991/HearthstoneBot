@@ -59,7 +59,6 @@ public class Image{
         this.byteData = Base64.getDecoder().decode(codedData);
     }
 
-
     private byte[] getDataFromBufferedImageAsByte(BufferedImage bufferedImage){
         int pixels = bufferedImage.getHeight()*bufferedImage.getWidth();
         byte[] arr = new byte[pixels*3];

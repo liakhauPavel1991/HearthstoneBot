@@ -3,9 +3,7 @@ import actions.Roboharth;
 import actions.CommonAction;
 import forms.*;
 import forms.Map;
-import forms.Menu;
 import imageTools.ScreenUtil;
-import utils.readers.PropertyReader;
 import utils.readers.ScriptCreator;
 
 import java.awt.*;
@@ -18,11 +16,7 @@ public class main {
     public static void main(String[] args) throws IOException, AWTException, ClassNotFoundException {
         CommonAction.sleep(1000);
 
-
         baseCycleScript();
-
-
-        //takeScreen();
 
     }
 
@@ -35,154 +29,83 @@ public class main {
     }
 
     private static void baseCycleScript() throws IOException, AWTException {
-        ChoseBattle choseBattle = new ChoseBattle();
-        ChoseCommand choseCommand = new ChoseCommand();
-        Map map = new Map();
-        BattleField battleField = new BattleField();
-        Menu menu = new Menu();
-        BattleHeroes battleHeroes = new BattleHeroes();
-        ExtraPower extraPower = new ExtraPower();
-        PrizesForm prizesForm = new PrizesForm();
 
         for (int i = 0; i < 1000; i++) {
             System.out.println(new Date() + " " + i);
-            choseBattle.choseBattle();
-            choseCommand.choseCommand();
-            map.startBattle();
+
+            StartPreparing.choseBattle();
+            StartPreparing.choseCommand();
+            Map.startBattle();
 
             for(int j = 0; j < 6;){
                 System.out.println("-----------------------------------Battle #####------------------------------------" + j);
-            //    ScreenUtil.saveFullScreenshot("debagPicture/Battle" + j);
-                battleField.opening(3, 1, 2, 4);
-                battleField.turn();
-                battleField.prepareBattle();
-                System.out.println("Fight");
-                while(battleField.doesReadyToFight()){
+                BattleField.opening(3, 1, 2, 4);
+                BattleField.turn();
+                BattleField.prepareBattle();
+
+                while(BattleField.doesReadyToFight()){
                     System.out.println("Battle turn ----------------------1");
-                    //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(1,2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(17000);
-                    if(battleField.doesReadyToFight()){
+
+                    BattleHeroes.fight(1);
+                    BattleHeroes.fight(2);
+                    BattleHeroes.fight(1,2);
+                    BattleField.sleep();
+                    BattleField.turn();
+                    if(BattleField.doesReadyToFight()){
                         System.out.println("Battle turn ----------------------2");
-                        //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                        battleHeroes.fight(1);
-                        battleHeroes.fight(2);
-                        battleHeroes.fight(2);
-                        battleField.sleep(1000);
-                        CommonAction.turn(14000);
+
+                        BattleHeroes.fight(1);
+                        BattleHeroes.fight(2);
+                        BattleHeroes.fight(2);
+                        BattleField.sleep();
+                        BattleField.turn();
                     }
                 }
                 System.out.println("Accepting Win");
-                battleField.acceptWin();
-                extraPower.takePower();
+                BattleField.acceptWin();
+                ExtraPower.takePower();
                 System.out.println("map.findNextEnemy();");
-                j = map.findBestEnemy(j);
+                j = Map.findBestEnemy(j);
                 System.out.println(j + " turn---- END");
             }
             System.out.println("Boss Fight ------------------------------");
-            map.startBattle();
-            battleField.opening(3, 1, 2, 4);
-            battleField.turn();
-            battleField.prepareBattle();
+            Map.startBattle();
+            BattleField.opening(3, 1, 2, 4);
+            BattleField.turn();
+            BattleField.prepareBattle();
             System.out.println("Fight");
-            while(battleField.doesReadyToFight()){
+            while(BattleField.doesReadyToFight()){
                 System.out.println("Battle turn ------------1");
-                //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(1,2);
-                battleField.sleep(1000);
-                CommonAction.turn(17000);
-                if(battleField.doesReadyToFight()){
+
+                BattleHeroes.fight(1);
+                BattleHeroes.fight(2);
+                BattleHeroes.fight(1,2);
+                BattleField.sleep(1000);
+                BattleField.turn();
+                if(BattleField.doesReadyToFight()){
                     System.out.println("Battle turn --------------2");
-                    //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(14000);
+
+                    BattleHeroes.fight(1);
+                    BattleHeroes.fight(2);
+                    BattleHeroes.fight(2);
+                    BattleField.sleep(1000);
+                    BattleField.turn();
                 }
             }
             System.out.println("Accepting Win");
-            battleField.acceptWin();
+            BattleField.acceptWin();
 
-            battleField.sleep(1000);
+            BattleField.sleep(1000);
 
             System.out.println("getPrizes");
             ScreenUtil.saveFullScreenshot("getPrizes");
-            prizesForm.getPrizes();
+            PrizesForm.getPrizes();
 
         }
     }
 
-    private static void baseScriptOne() throws IOException, AWTException {
-        ChoseBattle choseBattle = new ChoseBattle();
-        ChoseCommand choseCommand = new ChoseCommand();
-        Map map = new Map();
-        BattleField battleField = new BattleField();
-        Menu menu = new Menu();
-        BattleHeroes battleHeroes = new BattleHeroes();
-        ExtraPower extraPower = new ExtraPower();
-
-        System.out.println("choseBattle");
-            choseBattle.choseBattle();
-        System.out.println("choseCommand");
-            choseCommand.choseCommand();
-        System.out.println("map.startBattle()");
-            map.startBattle();
-        System.out.println("opening");
-            battleField.opening(3, 1, 2, 4);
-        System.out.println("turn");
-            battleField.turn();
-
-            while(!battleField.isItWin()){
-                System.out.println("first battle");
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(1,2);
-                battleField.sleep(1000);
-                CommonAction.turn(17000);
-                if(!battleField.isItWin()){
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(14000);
-                }
-            }
-
-            battleField.acceptWin();
-            extraPower.takePower();
 
 
-    }
-
-    private static void fight(){
-        BattleField battleField = new BattleField();
-        BattleHeroes battleHeroes = new BattleHeroes();
-
-        while(battleField.doesReadyToFight()){
-            System.out.println("Battle turn ----------------------1");
-            //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-            battleHeroes.fight(1);
-            battleHeroes.fight(2);
-            battleHeroes.fight(1,2);
-            battleField.sleep(1000);
-            CommonAction.turn(17000);
-            if(battleField.doesReadyToFight()){
-                System.out.println("Battle turn ----------------------2");
-                //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(2);
-                battleField.sleep(1000);
-                CommonAction.turn(14000);
-            }
-        }
-    }
 
 }
 

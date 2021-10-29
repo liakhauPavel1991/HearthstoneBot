@@ -10,7 +10,7 @@ public class GettingTask extends BaseForm{
     private static final Rectangle thirdHeroTaskIcon = new Rectangle(1200, 400, 20,20);
     private static final Rectangle acceptTaskButton = new Rectangle(880, 720, 40,40);
 
-    public void getTask(){
+    public static void getTask(){
         sleep(2000);
         robot.move(thirdHeroTaskIcon);
         robot.click();
