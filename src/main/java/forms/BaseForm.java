@@ -66,9 +66,6 @@ public class BaseForm {
             sleep(waiting);
             findingImg = robot.getImage(img);
             isEquals = findingImg.equals(imgFromStorage);
-            System.out.println("Warbning " + i);
-            System.out.println("finding: " + findingImg);
-            System.out.println("storage: " + imgFromStorage);
             if(isEquals){
                 break;
             }
@@ -84,7 +81,6 @@ public class BaseForm {
             sleep(waiting);
             findingImg = robot.getImage(img);
             isEquals = findingImg.equals(imgFromStorage);
-            System.out.println("Warbning: images are not equals" + i);
             if(isEquals){
                 break;
             }
@@ -107,4 +103,21 @@ public class BaseForm {
         }
         return isSimilar;
     }
+    protected boolean waitSimilarPicture(Image imgFromStorage, Rectangle img) {
+        byte[] findingImg = robot.getImage(img).byteData;
+        byte[] storeImg = imgFromStorage.byteData;
+        boolean isSimilar = ImageTool.differenceLessThan(10, 5, findingImg, storeImg);
+
+        for (int i = 0; i < 5 && !isSimilar; i++) {
+            sleep(waiting);
+            findingImg = robot.getImage(img).byteData;
+            isSimilar = ImageTool.differenceLessThan(10, 5, findingImg, storeImg);
+            if (isSimilar) {
+                break;
+            }
+        }
+        return isSimilar;
+    }
+
+
 }

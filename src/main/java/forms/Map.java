@@ -41,42 +41,104 @@ public class Map extends BaseForm{
         return isThatImageExist(emptyEnemyImageStr, enemyImage);
     }
 
-    public void findNextEnemy(){
+    private void clickRightMapEnemy(){
         for (int x = startSearch.x; x < finishPoint.x; x+= step){
             robot.move(new Point(x, startSearch.y));
             robot.click();
-            sleep(200);
-            if(!isEmptyImage()){
-                if(isSimilarImageExist(redPowerImageStr, enemyImage) ||
+        }
+    }
+
+    private void clickLeftMapEnemy(){
+        for (int x = finishPoint.x; x > startSearch.x; x-= step){
+            robot.move(new Point(x, startSearch.y));
+            robot.click();
+        }
+    }
+
+    private int mapEnemyPriority() {
+        int priority;
+        if (isSimilarImageExist(taskerImageStr, enemyImage)) {
+            priority = 1;
+        } else if (isSimilarImageExist(resurrectionImageStr, enemyImage)) {
+            priority = 2;
+        } else if (isSimilarImageExist(bombImageStr, enemyImage) ||
+                isSimilarImageExist(diversionImageStr, enemyImage)) {
+            priority = 5;
+        } else if (isSimilarImageExist(redPowerImageStr, enemyImage) ||
                 isSimilarImageExist(greenPowerImageStr, enemyImage) ||
-                isSimilarImageExist(bluePowerImageStr, enemyImage) ||
-                isSimilarImageExist(bombImageStr, enemyImage) ||
-                isSimilarImageExist(diversionImageStr, enemyImage)||
-                isSimilarImageExist(resurrectionImageStr, enemyImage)){
+                isSimilarImageExist(bluePowerImageStr, enemyImage)) {
+            priority = 4;
+        }
+        /*else if (isSimilarImageExist(portalImageStr, enemyImage)) {
+            priority = 6;//------------------------------------------------------------------------------
+        } */
+        else {
+            priority = 3;
+        }
+        return priority;
+    }
+    public int findBestEnemy(int j){
+        if(j<5){
+            clickLeftMapEnemy();
+            int leftEnemyPriority = mapEnemyPriority();
+            clickRightMapEnemy();
+            int rightEnemyPriority = mapEnemyPriority();
+            int bestOption = rightEnemyPriority;
+            if(leftEnemyPriority < rightEnemyPriority){
+                clickLeftMapEnemy();
+                bestOption = leftEnemyPriority;
+            }
+
+            switch (bestOption){
+                case 1: { // -----------------> Tasker
                     robot.move(playBtn);
-                    robot.clickAndClick();
-                    sleep(2300);
-                    robot.clickAndClick();
-                    for (int y = finishPoint.x; y > startSearch.x; y -= step){
-                        robot.move(new Point(x, startSearch.y));
-                        robot.click();
-                    }
-                    robot.move(playBtn);
-                    robot.clickAndClick();
-                    sleep(2300);
-                    robot.clickAndClick();
-                } else if(isSimilarImageExist(taskerImageStr, enemyImage)){
+                    robot.click();
                     new GettingTask().getTask();
-                    findNextEnemy();
-                } else {
+                    System.out.println("task is got");
+                    findBestEnemy(++j);
+                    break;
+                }
+                case 2: { // -----------------> Resurrect
+                    badScenery();
+                    findBestEnemy(++j);
+                    System.out.println("resurrect");
+                    break;
+                }
+                case 3: { // -----------------> Enemy
                     robot.move(playBtn);
                     robot.clickAndClick();
                     sleep(battleLoading);
+                    System.out.println("task is got");
+                    break;
                 }
-                x = finishPoint.x;
+                case 4:
+                case 5:
+                case 6: { // -----------------> Bomb, Divers, Power
+                    badScenery();
+                    findBestEnemy(++j);
+                    System.out.println("bomb");
+                    break;
+                }
             }
         }
+
+        return ++j;
     }
+
+    private void badScenery(){
+        robot.move(playBtn);
+        robot.clickAndClick();
+        sleep(2300);
+        robot.clickAndClick();
+    }
+
+
+
+
+
+
+
+
 
 
 

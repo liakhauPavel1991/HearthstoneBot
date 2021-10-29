@@ -18,7 +18,7 @@ public class ImageTool {
                 }
             }
         }
-        System.out.println(brokenPixel + " - broken pixels, " + similar + " - similar pixels, " + a.length + " - all pixels");
+        //System.out.println(brokenPixel + " - broken pixels, " + similar + " - similar pixels, " + a.length + " - all pixels");
         int percent = 100*brokenPixel/a.length;
         if ( percent < percentOfBrokenPixels){
             isLess = true;

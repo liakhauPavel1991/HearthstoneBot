@@ -51,6 +51,14 @@ public class Image{
         this.byteData = getDataFromBufferedImageAsByte(bufferedImage);
     }
 
+    public Image(String codedData, Rectangle rectangle) {
+        this.x = rectangle.x;
+        this.y = rectangle.y;
+        this.width = rectangle.width;
+        this.height = rectangle.height;
+        this.byteData = Base64.getDecoder().decode(codedData);
+    }
+
 
     private byte[] getDataFromBufferedImageAsByte(BufferedImage bufferedImage){
         int pixels = bufferedImage.getHeight()*bufferedImage.getWidth();
@@ -91,8 +99,6 @@ public class Image{
         boolean isEquals = true;
         for (int i = 0; i < a.length; i++){
             if(a[i] != b[i]){
-
-                System.out.println(i + ": a[i] " + a[i] + " b[i] " + b[i]);
                 isEquals = false;
                 break;
             }
@@ -131,4 +137,5 @@ public class Image{
         }
         return isLess;
     }
+
 }

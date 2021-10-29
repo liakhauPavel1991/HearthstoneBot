@@ -55,12 +55,12 @@ public class Roboharth {
 
     public void move(Point point){
         robot.mouseMove(point.x, point.y);
-        sleep(250);
+        sleep(200);
     }
 
     public void move(Rectangle rectangle){
         robot.mouseMove(rectangle.x, rectangle.y);
-        sleep(250);
+        sleep(200);
     }
 
     public void move(int x, int y){
