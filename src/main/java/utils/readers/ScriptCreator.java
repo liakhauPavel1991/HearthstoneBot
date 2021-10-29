@@ -18,9 +18,24 @@ public class ScriptCreator {
         FileReader.writeInFile("src/main/resources/data.properties", fileName  + " = " + base64 + "\n");
     }
 
-    public static void saveJPEG(String fileName, Rectangle rectangle) throws AWTException, IOException {
-        ScreenUtil.saveImage("src/main/resources/pictures/" + fileName, new Robot().createScreenCapture(rectangle));
+    public static void saveJPEG(String fileName, Rectangle rectangle) {
+        try {
+            ScreenUtil.saveImage("src/main/resources/pictures/extraPower/" + fileName, new Robot().createScreenCapture(rectangle));
+            System.out.println(" fileName" + " .jpeg is created");
+        } catch (AWTException | IOException e) {
+            e.printStackTrace();
+        }
     }
+
+    public static void saveJpegExtraPower(String fileName, Rectangle rectangle) throws AWTException, IOException {
+        BufferedImage bufferedImage = new Robot().createScreenCapture(rectangle);
+        imageTools.Image img = new Image(bufferedImage);
+        ScreenUtil.saveImage("src/main/resources/pictures/extraPower/" + fileName, bufferedImage);
+        String base64 = img.getAsEncodedString();
+        FileReader.writeInFile("src/main/resources/extraPower.properties", fileName + " = " + base64 + "\n");
+    }
+
+
 }
 
         /*String fileName = "choseEnemyBand";

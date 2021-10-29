@@ -19,9 +19,18 @@ public class ScreenUtil {
         ImageIO.write(getFullScreen(), "jpeg", new File(fileName + ".jpeg"));
     }
 
-    public static void saveScrPiece(String fileName, Rectangle rectangle) throws AWTException, IOException {
-        BufferedImage piece = getFullScreen().getSubimage(rectangle.x, rectangle.y, rectangle.width , rectangle.height);
-        ImageIO.write(piece, "jpeg", new File(fileName + ".jpeg"));
+    public static void saveScrPiece(String fileName, Rectangle rectangle) {
+        BufferedImage piece = null;
+        try {
+            piece = getFullScreen().getSubimage(rectangle.x, rectangle.y, rectangle.width , rectangle.height);
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
+        try {
+            ImageIO.write(piece, "jpeg", new File(fileName + ".jpeg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveScrPiece(String fileName, Point point, Dimension dimension) throws AWTException, IOException {

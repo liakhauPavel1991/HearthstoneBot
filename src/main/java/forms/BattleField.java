@@ -1,6 +1,7 @@
 package forms;
 
 import actions.CommonAction;
+import imageTools.Image;
 import points.Points;
 import utils.readers.PropertyReader;
 import java.awt.*;
@@ -11,6 +12,7 @@ public class BattleField extends BaseForm {
     private final int timeSecondOnTable = 700;
     private final int timeThirdOnTable = 2000;
     private final int timeTurn = 5000;
+    private final int timeLoadMapAfterBattle = 8500;
 
     //1 hero
     private final Point onlyOneHero = new Point(970, 1000);
@@ -43,17 +45,26 @@ public class BattleField extends BaseForm {
     private final Point rightTablePosition = new Point(1150, 600);
     private final Point leftTablePosition = new Point(750, 600);
 
-    private final Rectangle loadedBattleField = new Rectangle(1600, 490, 10, 10);
-    private static final String loadedBattleFieldStr = PropertyReader.getProperty(PropertyReader.dataFilePath, "loadedBattleField");
+    private static final String myNameLblStr = PropertyReader.getProperty(PropertyReader.dataFilePath, "myNameLbl");
+    private static final String winLblStr = PropertyReader.getProperty(PropertyReader.dataFilePath, "winLbl");
 
-    public boolean isBattleFieldLoaded(){
-        if(isExist(loadedBattleFieldStr, loadedBattleField)){
-            sleep(extraLoadingTime);
-        }
-        return isExist(loadedBattleFieldStr, loadedBattleField);
+    private final Rectangle myNameLbl = new Rectangle(35, 930, 20, 5);
+    private final Rectangle winLbl = new Rectangle(900, 1020, 100, 15);
+    private static final Rectangle firstAbility = new Rectangle(760, 460, 20, 20);
+    private Image firstAbilityObj;
+
+
+
+    public boolean isStillBattle(){
+        return isThatImageExist(myNameLblStr, myNameLbl);
+    }
+
+    public boolean isItWin(){
+        return isSimilarImageExist(winLblStr, winLbl);
     }
 
     public void opening(int heroCount, int first, int second, int third){
+        wait(myNameLblStr, myNameLbl);
         heroOnTable(positions(heroCount, first), timeFirstOnTable);
 
         if(second > first){
@@ -176,6 +187,21 @@ public class BattleField extends BaseForm {
         robot.move(Points.turn);
         robot.clickAndClick();
         sleep(timeTurn);
+    }
+
+    public void acceptWin(){
+        robot.clickAndClick();
+        sleep(500);
+        robot.clickAndClick();
+        sleep(timeLoadMapAfterBattle);
+    }
+
+    public void prepareBattle(){
+        firstAbilityObj = robot.getImage(firstAbility);
+    }
+
+    public boolean doesReadyToFight(){
+        return wait(firstAbilityObj, firstAbility, 1);
     }
 
 

@@ -27,6 +27,21 @@ public class Image{
         this.height = bufferedImage.getHeight();
         this.byteData = getDataFromBufferedImageAsByte(bufferedImage);
     }
+    public Image(Image image) {
+        this.x = 0;
+        this.y = 0;
+        this.width = image.width;
+        this.height = image.height;
+        this.byteData =image.byteData;
+    }
+
+    public Image(byte[]bytes) {
+        this.x = 0;
+        this.y = 0;
+        this.width = 0;
+        this.height = 0;
+        this.byteData = bytes;
+    }
 
     public Image(BufferedImage bufferedImage, Rectangle rectangle) {
         this.x = rectangle.x;
@@ -51,18 +66,17 @@ public class Image{
         return arr;
     }
 
-    private int[] getDataFromBufferedImage(BufferedImage bufferedImage){
-        int[] arr = new int[bufferedImage.getHeight()*bufferedImage.getWidth()];
-        for (int i = 0; i < bufferedImage.getHeight(); i++){
-            for (int j = 0; j < bufferedImage.getWidth(); j++) {
-                arr[j + i*bufferedImage.getWidth()] = bufferedImage.getRGB(j, i);
-            }
-        }
-        return arr;
-    }
-
     public String getAsEncodedString (){
         return Base64.getEncoder().encodeToString(this.byteData);
+    }
+
+    public static Image getImageFromString(String str){
+        return new Image(Base64.getDecoder().decode(str));
+    }
+
+    public static boolean compareBytes(Image image, String str){
+        Image imfFromStr = new Image(Base64.getDecoder().decode(str));
+        return imfFromStr.equals(image);
     }
 
     @Override
@@ -70,13 +84,15 @@ public class Image{
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Image image = (Image) o;
-        return x == image.x && y == image.y && width == image.width && height == image.height && equalsArrays(byteData, image.byteData);
+        return equalsArrays(byteData, image.byteData);
     }
 
     private boolean equalsArrays(byte[] a, byte[] b){
         boolean isEquals = true;
         for (int i = 0; i < a.length; i++){
             if(a[i] != b[i]){
+
+                System.out.println(i + ": a[i] " + a[i] + " b[i] " + b[i]);
                 isEquals = false;
                 break;
             }
@@ -93,5 +109,26 @@ public class Image{
                 ", height=" + height +
                 ", data=" + Arrays.toString(byteData) +
                 '}';
+    }
+
+    public boolean differenceLessThan(int percentOfDiff, int percentOfBrokenPixels, byte[] a, byte[] b){
+        boolean isLess = false;
+        int brokenPixel = 0;
+        int similar = 0;
+
+        for (int i = 0; i < a.length; i++){
+            if(a[i] != b[i]){
+                similar++;
+                if((Math.abs(a[i] - b[i])*100/256) > percentOfDiff){
+                    brokenPixel++;
+                }
+            }
+        }
+        System.out.println(brokenPixel + " - broken pixels, " + similar + " - similar pixels, " + a.length + " - all pixels");
+        int percent = 100*brokenPixel/a.length;
+        if ( percent < percentOfBrokenPixels){
+            isLess = true;
+        }
+        return isLess;
     }
 }

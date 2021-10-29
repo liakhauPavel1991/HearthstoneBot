@@ -5,7 +5,7 @@ import java.awt.*;
 public class BattleHeroes extends BaseForm {
     private final int timeAbilityAnimation = 500;
 
-    private final Point firstAbility = new Point(780, 500);
+    private final Point firstAbility = new Point(760, 460);
     private final Point firstEnemy = new Point(780, 300);
     private final Point secondAbility = new Point(950, 500);
     private final Point secondEnemy = new Point(1000, 300);

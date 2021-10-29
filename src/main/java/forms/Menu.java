@@ -24,7 +24,7 @@ public class Menu extends BaseForm{
     }
 
     public boolean isMenuHere(){
-        return isExist(menuBtnStr, menuBtn);
+        return isThatImageExist(menuBtnStr, menuBtn);
     }
 
     public boolean isSurrenderButtonExist(){
@@ -33,8 +33,9 @@ public class Menu extends BaseForm{
             robot.click();
             sleep(500);
         }
-        boolean is = isExist(surrenderBtnStr, surrenderBtn);
+        boolean is = isThatImageExist(surrenderBtnStr, surrenderBtn);
         robot.move(menuBtn);
+        robot.click();
         return is;
     }
 }
