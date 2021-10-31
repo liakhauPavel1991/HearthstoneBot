@@ -1,17 +1,15 @@
 package forms;
 
-import actions.CommonAction;
 import imageTools.Image;
 import utils.readers.PropertyReader;
 import java.awt.*;
 
 public class BattleField extends BaseForm {
     private static final int timeFieldAnimation = 3000;
-    private static final int extraLoadingTime = 5000;
-    private static final int timeFirstOnTable = 700;
-    private static final int timeSecondOnTable = 700;
-    private static final int timeThirdOnTable = 2000;
-    private static final int timeTurn = 5100;
+    private static final int timeFirstOnTable = 1200;
+    private static final int timeSecondOnTable = 1200;
+    private static final int timeThirdOnTable = 2200;
+    private static final int timeTurn = 7000;
     private static final int timeLoadMapAfterBattle = 8500;
 
     //1 hero
@@ -80,13 +78,13 @@ public class BattleField extends BaseForm {
 
     private static void heroOnTable(Point point, int millis){
         robot.move(point);
-        CommonAction.sleep(150);
+        sleep(150);
         robot.press();
-        CommonAction.sleep(200);
+        sleep(200);
         robot.move(rightTablePosition);
-        CommonAction.sleep(100);
+        sleep(100);
         robot.unpress();
-        CommonAction.sleep(millis);
+        sleep(millis);
     }
 
     private static Point positions(int heroCount, int who){
@@ -185,10 +183,23 @@ public class BattleField extends BaseForm {
     }
 
     public static void acceptWin(){
-        waitSimilarPicture(winLblStr, winLbl);
         robot.clickAndClick();
         sleep(500);
         robot.clickAndClick();
+        sleep(1000);
+        robot.clickAndClick();
+    }
+    public static boolean isWin(){
+        boolean isWin = isSimilar(winLblStr, winLbl);
+        boolean isReadyToFight = isSimilar(firstAbilityObj, firstAbility);
+        while(true){
+            if(isWin){
+                return true;
+            } else if(isReadyToFight) {
+                return false;
+            }
+            sleep(1000);
+        }
     }
 
     public static void prepareBattle(){
@@ -196,10 +207,18 @@ public class BattleField extends BaseForm {
         firstAbilityObj = robot.getImage(firstAbility);
     }
 
-    public static boolean doesReadyToFight(){
-        return wait(firstAbilityObj, firstAbility, 1);
+    public static boolean isReadyToFight(){
+        return isSimilar(firstAbilityObj, firstAbility);
     }
 
+    public static boolean isReadyToFightWith10SecWaiting(){
+        for(int i = 0; i < 10; i++){
+            if(!isSimilar(firstAbilityObj, firstAbility)){
+                sleep(1000);
+            }
+        }
+        return isSimilar(firstAbilityObj, firstAbility);
+    }
 
 
 }

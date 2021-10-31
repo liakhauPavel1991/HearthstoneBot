@@ -13,8 +13,14 @@ import java.util.Base64;
 
 public class ScreenUtil {
 
-    public static void saveFullScreenshot(String fileName) throws AWTException, IOException {
-        ImageIO.write(getFullScreen(), "jpeg", new File(fileName + ".jpeg"));
+    public static void saveFullScreenshot(String fileName) {
+        try {
+            ImageIO.write(getFullScreen(), "jpeg", new File(fileName + ".jpeg"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (AWTException e) {
+            e.printStackTrace();
+        }
     }
 
     public static void saveScrPiece(String fileName, Rectangle rectangle) {
@@ -58,11 +64,5 @@ public class ScreenUtil {
         return arrayList;
     }
 
-
-    public static void write(BufferedImage image) {
-        System.out.println(image);
-        System.out.println(imageAsIntArr(image));
-
-    }
 
 }

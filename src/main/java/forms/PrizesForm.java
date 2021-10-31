@@ -39,14 +39,13 @@ public class PrizesForm extends BaseForm{
     }
 
     public static void getPrizes(){
+        sleep(17000);
         clickPrizes();
-        sleep(700);
-        if(!isSimilarImageExist(doneBtnStr, doneBtn)){
-            clickPrizes();
-        }
+        //waitSimilarPicture(doneBtnStr, doneBtn);
+        sleep(delay);
         robot.move(doneBtn);
         robot.click();
-        sleep(4000);
+        sleep(5000);
         robot.move(acceptCompletedBtn);
         robot.click();
         sleep(2000);

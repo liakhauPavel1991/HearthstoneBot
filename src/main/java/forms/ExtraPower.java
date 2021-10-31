@@ -17,12 +17,12 @@ public class ExtraPower extends BaseForm{
     private static final Rectangle rightExtraPower = new Rectangle(1400, 350, 50,50);
     private static final Rectangle takeBtn = new Rectangle(1100, 840, 40, 40);
 
-    private static final Image heroIconStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "heroIcon"), heroIcon);
-    private static final Image leftExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "leftExtraPower"),leftExtraPower);
-    private static final Image centerExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "centerExtraPower"), centerExtraPower);
-    private static final Image rightExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "rightExtraPower"), rightExtraPower);
+  //  private static final Image heroIconStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "heroIcon"), heroIcon);
+  //  private static final Image leftExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "leftExtraPower"),leftExtraPower);
+  //  private static final Image centerExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "centerExtraPower"), centerExtraPower);
+  //  private static final Image rightExtraPowerStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "rightExtraPower"), rightExtraPower);
     private static final Image takeBtnScr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "takeBtn"), takeBtn);
-    private static final Image repeatTakeBtnScr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "repeatTakeBtnScr"), takeBtn);
+    private static final Image repeatTakeBtnScr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "repeatTakeBtn"), takeBtn);
 
     public static void saveExtraPowerJpeg(int i) throws IOException, AWTException {
         ScriptCreator.saveJPEG("full" + i, new Rectangle(0, 0, 1920,1080));
@@ -33,7 +33,7 @@ public class ExtraPower extends BaseForm{
     }
 
     public static void takePower(){
-        waitSimilarPicture(takeBtnScr, takeBtn);
+        waitSimilarPicture(takeBtnScr, repeatTakeBtnScr , takeBtn);
         robot.clickAndClick();
         sleep(100);
         robot.move(takeBtn);

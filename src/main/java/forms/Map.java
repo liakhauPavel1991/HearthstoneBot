@@ -1,13 +1,17 @@
 package forms;
 
+import actions.EnemyPriority;
 import imageTools.Image;
 import utils.readers.PropertyReader;
 import java.awt.*;
 
 public class Map extends BaseForm{
-    private static Point startSearch = new Point(370, 480);
-    private static Point finishPoint = new Point(1100, 480);
-    private static int step = 80;
+    public static int fightToEnd = 6;
+
+    private static final int timeAnimationMap = 3000;
+    private static final Point startSearch = new Point(370, 480);
+    private static final Point finishPoint = new Point(1100, 480);
+    private static final int step = 80;
     private static final int battleLoading = 20000;
 
     private static final Rectangle playBtn = new Rectangle(1500, 830, 20,20);
@@ -24,64 +28,83 @@ public class Map extends BaseForm{
     private static final Image  resurrectionImageStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "resurrectionImage"), enemyImage);
     private static final Image  taskerImageStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "taskerImage"), enemyImage);
 
+    private static final Image goBtnStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "goBtn"), playBtn);
     private static final Image playBtnStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "playBtn"), playBtn);
     private static final Image lookCommandStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "lookCommand"), lookCommand);
 
     public static void startBattle(){
-        waitSimilarPicture(playBtnStr, playBtn);
-        sleep(timeAnimation);
+        sleep(timeCommonAnimation);
         robot.move(playBtn);
         robot.clickAndClick();
     }
 
-    public static int findBestEnemy(int j){
-        waitSimilarPicture(playBtnStr, playBtn);
-        sleep(timeAnimation);
-        if(j<5){
-            clickLeftMapEnemy();
-            int leftEnemyPriority = mapEnemyPriority();
-            clickRightMapEnemy();
-            int rightEnemyPriority = mapEnemyPriority();
-            int bestOption = rightEnemyPriority;
-            if(leftEnemyPriority < rightEnemyPriority){
-                clickLeftMapEnemy();
-                bestOption = leftEnemyPriority;
-            }
+    public static void findBestEnemy(){
+        System.out.println("Find best Enemy");
+        waitSimilarPicture(lookCommandStr, lookCommand);
+        sleep(timeAnimationMap);
 
-            switch (bestOption){
-                case 1: { // -----------------> Tasker
-                    robot.move(playBtn);
-                    robot.click();
+        if( hasChose()){
+            System.out.println("I have a chose");
+            instructionWhatToDo(findBestOption());
+        } else {
+            System.out.println("I have not a chose");
+            instructionWhatToDo(mapEnemyPriority());
+        }
+    }
+
+    private static boolean hasChose(){ // attend showBtnStr-------------------------------
+        return !(isSimilar(goBtnStr, playBtn) || isSimilar(playBtnStr, playBtn));
+    }
+
+        private static void instructionWhatToDo(EnemyPriority whatToDo){
+            fightToEnd--;
+            switch (whatToDo){
+                case TASKER: {
+                    startBattle();
                     new GettingTask().getTask();
-                    System.out.println("task is got");
-                    findBestEnemy(++j);
+                    sleep(4000);
+                    if(fightToEnd != 0) {
+                        findBestEnemy();
+                    } else {
+                        startBattle();
+                    }
                     break;
                 }
-                case 2: { // -----------------> Resurrect
-                    badScenery();
-                    findBestEnemy(++j);
-                    System.out.println("resurrect");
-                    break;
-                }
-                case 3: { // -----------------> Enemy
+                case ENEMY: {
                     robot.move(playBtn);
                     robot.clickAndClick();
                     sleep(battleLoading);
-                    System.out.println("task is got");
                     break;
                 }
-                case 4:
-                case 5:
-                case 6: { // -----------------> Bomb, Divers, Power
-                    badScenery();
-                    findBestEnemy(++j);
-                    System.out.println("bomb");
+                case PORTAL: {
+                    fightToEnd = 0;
+                    moveToNextEnemy();
+                    break;
+                }
+                case RESURRECTION:
+                case BOMB:
+                case EXTRA_POWER:
+                case DIVERSION: {
+                    moveToNextEnemy();
+                    if(fightToEnd != 0) {
+                        findBestEnemy();
+                    }
                     break;
                 }
             }
         }
 
-        return ++j;
+    private static EnemyPriority findBestOption(){
+        clickLeftMapEnemy();
+        EnemyPriority leftEnemyPriority = mapEnemyPriority();
+        clickRightMapEnemy();
+        EnemyPriority rightEnemyPriority = mapEnemyPriority();
+        EnemyPriority bestOption = rightEnemyPriority;
+        if(leftEnemyPriority.ordinal() < rightEnemyPriority.ordinal()){
+            clickLeftMapEnemy();
+            bestOption = leftEnemyPriority;
+        }
+        return bestOption;
     }
 
     private static void clickRightMapEnemy(){
@@ -98,31 +121,35 @@ public class Map extends BaseForm{
         }
     }
 
-    private static int mapEnemyPriority() {
-        int priority;
-        if (isSimilarImageExist(taskerImageStr, enemyImage)) {
-            priority = 1;
-        } else if (isSimilarImageExist(resurrectionImageStr, enemyImage)) {
-            priority = 2;
-        } else if (isSimilarImageExist(bombImageStr, enemyImage) ||
-                isSimilarImageExist(diversionImageStr, enemyImage)) {
-            priority = 5;
-        } else if (isSimilarImageExist(redPowerImageStr, enemyImage) ||
-                isSimilarImageExist(greenPowerImageStr, enemyImage) ||
-                isSimilarImageExist(bluePowerImageStr, enemyImage)) {
-            priority = 4;
+    private static EnemyPriority mapEnemyPriority() {
+        EnemyPriority priority;
+        if (isSimilar(taskerImageStr, enemyImage)) {
+            System.out.println("it is Tasker");
+            priority = EnemyPriority.TASKER;
+        } else if (isSimilar(resurrectionImageStr, enemyImage)) {
+            System.out.println("it is Resurrect");
+            priority = EnemyPriority.RESURRECTION;
+        } else if (isSimilar(bombImageStr, enemyImage) ||
+                isSimilar(diversionImageStr, enemyImage)) {
+            System.out.println("it is Bomb or Diversion");
+            priority = EnemyPriority.DIVERSION;
+        } else if (isSimilar(redPowerImageStr, enemyImage) ||
+                isSimilar(greenPowerImageStr, enemyImage) ||
+                isSimilar(bluePowerImageStr, enemyImage)) {
+            System.out.println("it is Extra Power");
+            priority = EnemyPriority.EXTRA_POWER;
+        }else if (isSimilar(portalImageStr, enemyImage)) {
+            System.out.println("it is Portal");
+            priority = EnemyPriority.PORTAL;
         }
-        /*else if (isSimilarImageExist(portalImageStr, enemyImage)) {
-            priority = 6;//------------------------------------------------------------------------------
-        } */
         else {
-            priority = 3;
+            System.out.println("it is Enemy or Empty");
+            priority = EnemyPriority.ENEMY;
         }
         return priority;
     }
 
-
-    private static void badScenery(){
+    private static void moveToNextEnemy(){
         robot.move(playBtn);
         robot.clickAndClick();
         sleep(2300);
