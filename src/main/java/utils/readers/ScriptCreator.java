@@ -2,7 +2,6 @@ package utils.readers;
 
 import imageTools.Image;
 import imageTools.ScreenUtil;
-import pictureActions.Rectangles;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;

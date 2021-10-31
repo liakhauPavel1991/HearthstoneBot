@@ -1,17 +1,18 @@
-package forms;
+package monitorActions;
 
 import java.awt.*;
 
-public class BattleHeroes extends BaseForm {
-    private final int timeAbilityAnimation = 500;
+interface BattleHeroes extends BaseForm {
+    int timeAbilityAnimation = 500;
 
-    private final Point firstAbility = new Point(760, 460);
-    private final Point firstEnemy = new Point(780, 300);
-    private final Point secondAbility = new Point(950, 500);
-    private final Point secondEnemy = new Point(1000, 300);
-    private final Point thirdAbility = new Point(1150, 500);
+    Point firstAbility = new Point(760, 460);
+    Point firstEnemy = new Point(780, 300);
+    Point secondAbility = new Point(950, 500);
+    Point secondEnemy = new Point(1000, 300);
+    Point thirdAbility = new Point(1150, 500);
 
-    public void fight(int ability){
+
+    default void heroShot(int ability){
         switch (ability){
             case 1: {
                 firstAbility();
@@ -28,7 +29,7 @@ public class BattleHeroes extends BaseForm {
         }
     }
 
-    public void fight(int ability, int enemy){
+    default void heroShot(int ability, int enemy){
         switch (ability){
             case 1: {
                 firstAbility();
@@ -48,7 +49,7 @@ public class BattleHeroes extends BaseForm {
         }
     }
 
-    private void clickOn(int enemy){
+    default void clickOn(int enemy){
         switch (enemy){
             case 1:{
                 onFirstEnemy();
@@ -62,25 +63,25 @@ public class BattleHeroes extends BaseForm {
     }
 
 
-    private void firstAbility(){
+    default void firstAbility(){
         robot.move(firstAbility);
         robot.click();
         sleep(timeAbilityAnimation);
     }
 
-    private void secondAbility(){
+    default void secondAbility(){
         robot.move(secondAbility);
         robot.click();
         sleep(timeAbilityAnimation);
     }
 
-    private void thirdAbility(){
+    default void thirdAbility(){
         robot.move(thirdAbility);
         robot.click();
         sleep(timeAbilityAnimation);
     }
 
-    private void onFirstEnemy(){
+    default void onFirstEnemy(){
         robot.move(firstEnemy);
         robot.click();
         robot.move(firstEnemy);
@@ -88,7 +89,7 @@ public class BattleHeroes extends BaseForm {
         sleep(timeAbilityAnimation);
     }
 
-    private void onSecondEnemy(){
+    default void onSecondEnemy(){
         robot.move(secondEnemy);
         robot.click();
         robot.move(firstEnemy);

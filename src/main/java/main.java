@@ -1,188 +1,55 @@
-
-import actions.Roboharth;
-import actions.CommonAction;
-import forms.*;
-import forms.Map;
-import forms.Menu;
 import imageTools.ScreenUtil;
-import utils.readers.PropertyReader;
-import utils.readers.ScriptCreator;
+import monitorActions.*;
 
 import java.awt.*;
 import java.io.*;
-import java.util.*;
+import java.util.Date;
 
 public class main {
-    public static Roboharth robot = new Roboharth();
-
     public static void main(String[] args) throws IOException, AWTException, ClassNotFoundException {
-        CommonAction.sleep(1000);
+        Manager manager = new Manager();
+        manager.sleep(1000);
 
-
-        baseCycleScript();
-
-
-        //takeScreen();
+        while (true){
+            int i =1;
+            System.out.println("--------------------------------------" + new Date());
+            manager.prepareNewCycle(7);
+            manager.choseBattle();
+            manager.choseCommand();
+            while(manager.findBestEnemy() > 0){
+                manager.startBattle();
+                manager.opening(4, 1, 3, 4);
+                manager.turn();
+                manager.prepareBattle();
+                manager.fight();
+                manager.acceptWin();
+                manager.takePower();
+            }
+            if(manager.continueCycle){
+                manager.startBattle();
+                manager.opening(4, 1, 3, 4);
+                manager.turn();
+                manager.prepareBattle();
+                manager.fight();
+                manager.acceptWin();
+                manager.getPrizes(i);
+            }
+        }
 
     }
 
-    private static void takeScreen() throws IOException, AWTException {
-        System.out.println("Screen");
+/*
 
-        String fileName = "acceptCompletedBtn";
-        Rectangle myNameLblStr = new Rectangle(900, 860, 20, 20);
+    private static void takeScreen() throws IOException, AWTException {
+
+        String fileName = "portalImage";
+        Rectangle myNameLblStr = new Rectangle(1450, 280, 100, 100);
         ScriptCreator.create(fileName, myNameLblStr);
     }
 
-    private static void baseCycleScript() throws IOException, AWTException {
-        ChoseBattle choseBattle = new ChoseBattle();
-        ChoseCommand choseCommand = new ChoseCommand();
-        Map map = new Map();
-        BattleField battleField = new BattleField();
-        Menu menu = new Menu();
-        BattleHeroes battleHeroes = new BattleHeroes();
-        ExtraPower extraPower = new ExtraPower();
-        PrizesForm prizesForm = new PrizesForm();
 
-        for (int i = 0; i < 1000; i++) {
-            System.out.println(new Date() + " " + i);
-            choseBattle.choseBattle();
-            choseCommand.choseCommand();
-            map.startBattle();
+*/
 
-            for(int j = 0; j < 6;){
-                System.out.println("-----------------------------------Battle #####------------------------------------" + j);
-            //    ScreenUtil.saveFullScreenshot("debagPicture/Battle" + j);
-                battleField.opening(3, 1, 2, 4);
-                battleField.turn();
-                battleField.prepareBattle();
-                System.out.println("Fight");
-                while(battleField.doesReadyToFight()){
-                    System.out.println("Battle turn ----------------------1");
-                    //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(1,2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(17000);
-                    if(battleField.doesReadyToFight()){
-                        System.out.println("Battle turn ----------------------2");
-                        //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                        battleHeroes.fight(1);
-                        battleHeroes.fight(2);
-                        battleHeroes.fight(2);
-                        battleField.sleep(1000);
-                        CommonAction.turn(14000);
-                    }
-                }
-                System.out.println("Accepting Win");
-                battleField.acceptWin();
-                extraPower.takePower();
-                System.out.println("map.findNextEnemy();");
-                j = map.findBestEnemy(j);
-                System.out.println(j + " turn---- END");
-            }
-            System.out.println("Boss Fight ------------------------------");
-            map.startBattle();
-            battleField.opening(3, 1, 2, 4);
-            battleField.turn();
-            battleField.prepareBattle();
-            System.out.println("Fight");
-            while(battleField.doesReadyToFight()){
-                System.out.println("Battle turn ------------1");
-                //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(1,2);
-                battleField.sleep(1000);
-                CommonAction.turn(17000);
-                if(battleField.doesReadyToFight()){
-                    System.out.println("Battle turn --------------2");
-                    //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(14000);
-                }
-            }
-            System.out.println("Accepting Win");
-            battleField.acceptWin();
-
-            battleField.sleep(1000);
-
-            System.out.println("getPrizes");
-            ScreenUtil.saveFullScreenshot("getPrizes");
-            prizesForm.getPrizes();
-
-        }
-    }
-
-    private static void baseScriptOne() throws IOException, AWTException {
-        ChoseBattle choseBattle = new ChoseBattle();
-        ChoseCommand choseCommand = new ChoseCommand();
-        Map map = new Map();
-        BattleField battleField = new BattleField();
-        Menu menu = new Menu();
-        BattleHeroes battleHeroes = new BattleHeroes();
-        ExtraPower extraPower = new ExtraPower();
-
-        System.out.println("choseBattle");
-            choseBattle.choseBattle();
-        System.out.println("choseCommand");
-            choseCommand.choseCommand();
-        System.out.println("map.startBattle()");
-            map.startBattle();
-        System.out.println("opening");
-            battleField.opening(3, 1, 2, 4);
-        System.out.println("turn");
-            battleField.turn();
-
-            while(!battleField.isItWin()){
-                System.out.println("first battle");
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(1,2);
-                battleField.sleep(1000);
-                CommonAction.turn(17000);
-                if(!battleField.isItWin()){
-                    battleHeroes.fight(1);
-                    battleHeroes.fight(2);
-                    battleHeroes.fight(2);
-                    battleField.sleep(1000);
-                    CommonAction.turn(14000);
-                }
-            }
-
-            battleField.acceptWin();
-            extraPower.takePower();
-
-
-    }
-
-    private static void fight(){
-        BattleField battleField = new BattleField();
-        BattleHeroes battleHeroes = new BattleHeroes();
-
-        while(battleField.doesReadyToFight()){
-            System.out.println("Battle turn ----------------------1");
-            //        ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-            battleHeroes.fight(1);
-            battleHeroes.fight(2);
-            battleHeroes.fight(1,2);
-            battleField.sleep(1000);
-            CommonAction.turn(17000);
-            if(battleField.doesReadyToFight()){
-                System.out.println("Battle turn ----------------------2");
-                //            ScreenUtil.saveFullScreenshot("debagPicture/fight" + j);
-                battleHeroes.fight(1);
-                battleHeroes.fight(2);
-                battleHeroes.fight(2);
-                battleField.sleep(1000);
-                CommonAction.turn(14000);
-            }
-        }
-    }
 
 }
 
