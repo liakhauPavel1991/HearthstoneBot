@@ -39,7 +39,7 @@ interface Map extends BaseForm{
     }
 
     default void waitMapLoading(){
-        System.out.println("Find best Enemy");
+        System.out.println("load Map");
         waitSimilarPicture(lookCommandStr, lookCommand);
         sleep(timeAnimationMap);
     }
@@ -83,10 +83,12 @@ interface Map extends BaseForm{
         } else if (isSimilar(resurrectionImageStr, enemyImage)) {
             System.out.println("it is Resurrect");
             priority = EnemyPriority.RESURRECTION;
-        } else if (isSimilar(bombImageStr, enemyImage) ||
-                isSimilar(diversionImageStr, enemyImage)) {
-            System.out.println("it is Bomb or Diversion");
+        } else if (isSimilar(diversionImageStr, enemyImage)) {
+            System.out.println("it is Diversion");
             priority = EnemyPriority.DIVERSION;
+        } else if (isSimilar(bombImageStr, enemyImage)) {
+                System.out.println("it is Bomb");
+                priority = EnemyPriority.BOMB;
         } else if (isSimilar(redPowerImageStr, enemyImage) ||
                 isSimilar(greenPowerImageStr, enemyImage) ||
                 isSimilar(bluePowerImageStr, enemyImage)) {

@@ -1,6 +1,8 @@
 package monitorActions;
 
 import imageTools.Image;
+import imageTools.ScreenUtil;
+import utils.readers.Log;
 import utils.readers.PropertyReader;
 
 import java.awt.*;
@@ -37,9 +39,11 @@ interface PrizesForm extends BaseForm{
         sleep(delay);
     }
 
-    default void getPrizes(){
+    default void getPrizes(int i){
+        Log.info("Get prizes");
         sleep(17000);
         clickPrizes();
+        ScreenUtil.saveFullScreenshot("Prizes " + i);
         //waitSimilarPicture(doneBtnStr, doneBtn);
         sleep(delay);
         robot.move(doneBtn);

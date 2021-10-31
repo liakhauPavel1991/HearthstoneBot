@@ -1,7 +1,9 @@
+import imageTools.ScreenUtil;
 import monitorActions.*;
 
 import java.awt.*;
 import java.io.*;
+import java.util.Date;
 
 public class main {
     public static void main(String[] args) throws IOException, AWTException, ClassNotFoundException {
@@ -9,7 +11,9 @@ public class main {
         manager.sleep(1000);
 
         while (true){
-            manager.continueCycle = true;
+            int i =1;
+            System.out.println("--------------------------------------" + new Date());
+            manager.prepareNewCycle(7);
             manager.choseBattle();
             manager.choseCommand();
             while(manager.findBestEnemy() > 0){
@@ -28,7 +32,7 @@ public class main {
                 manager.prepareBattle();
                 manager.fight();
                 manager.acceptWin();
-                manager.getPrizes();
+                manager.getPrizes(i);
             }
         }
 

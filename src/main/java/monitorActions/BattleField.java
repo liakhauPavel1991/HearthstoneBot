@@ -80,9 +80,9 @@ interface BattleField extends BaseForm {
         robot.move(point);
         sleep(150);
         robot.press();
-        sleep(200);
+        sleep(230);
         robot.move(rightTablePosition);
-        sleep(100);
+        sleep(130);
         robot.unpress();
         sleep(millis);
     }
@@ -183,6 +183,7 @@ interface BattleField extends BaseForm {
     }
 
     default void acceptWin(){
+        Log.info("Accept win");
         robot.clickAndClick();
         sleep(500);
         robot.clickAndClick();

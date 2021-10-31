@@ -7,11 +7,16 @@ import utils.readers.Log;
 import java.awt.*;
 
 public class Manager implements BattleField, BattleHeroes, ExtraPower, GettingTask, Map, Menu, PrizesForm, StartPreparing{
-    public int fightToEnd = 6;
+    public int fightToEnd;
     public boolean continueCycle = true;
 
     private Image firstAbilityObj;
     private Rectangle firstAbility = new Rectangle(760, 460, 20, 20);
+
+    public void prepareNewCycle(int countEnemyes){
+        continueCycle = true;
+        fightToEnd = countEnemyes;
+    }
 
     public void prepareBattle(){
         Log.info("Save a picture of a prepared hero");
@@ -20,7 +25,7 @@ public class Manager implements BattleField, BattleHeroes, ExtraPower, GettingTa
     }
 
     public int findBestEnemy(){
-        Log.info("Find Best Enemy");
+        Log.info("Find Best Enemy. Remained fights: " + fightToEnd);
         waitMapLoading();
         if( hasChose()){
             Log.info("I have a chose");
@@ -36,7 +41,7 @@ public class Manager implements BattleField, BattleHeroes, ExtraPower, GettingTa
         fightToEnd--;
         switch (whatToDo){
             case TASKER: {
-                startBattle();
+                moveToNextEnemy();
                 getTask();
                 sleep(4000);
                 findBestEnemy();
@@ -47,14 +52,14 @@ public class Manager implements BattleField, BattleHeroes, ExtraPower, GettingTa
             }
             case PORTAL: {
                 fightToEnd = 0;
-                continueCycle = false;
                 moveToNextEnemy();
                 break;
             }
-            case RESURRECTION:
             case BOMB: {
+                continueCycle = false;
                 backFromBattle();
             }
+            case RESURRECTION:
             case EXTRA_POWER:
             case DIVERSION: {
                 moveToNextEnemy();

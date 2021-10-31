@@ -1,6 +1,7 @@
 package monitorActions;
 
 import imageTools.Image;
+import utils.readers.Log;
 import utils.readers.PropertyReader;
 import utils.readers.ScriptCreator;
 
@@ -33,6 +34,7 @@ interface ExtraPower extends BaseForm{
     }
 
     default  void takePower(){
+        Log.info("Take Power");
         waitSimilarPicture(takeBtnScr, repeatTakeBtnScr , takeBtn);
         robot.clickAndClick();
         sleep(100);
