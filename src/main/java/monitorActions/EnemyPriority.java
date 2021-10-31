@@ -1,4 +1,4 @@
-package actions;
+package monitorActions;
 
 public enum EnemyPriority {
     TASKER ,

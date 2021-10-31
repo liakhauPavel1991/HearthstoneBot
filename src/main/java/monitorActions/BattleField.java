@@ -1,61 +1,61 @@
-package forms;
+package monitorActions;
 
 import imageTools.Image;
+import utils.readers.Log;
 import utils.readers.PropertyReader;
 import java.awt.*;
 
-public class BattleField extends BaseForm {
-    private static final int timeFieldAnimation = 3000;
-    private static final int timeFirstOnTable = 1200;
-    private static final int timeSecondOnTable = 1200;
-    private static final int timeThirdOnTable = 2200;
-    private static final int timeTurn = 7000;
-    private static final int timeLoadMapAfterBattle = 8500;
+interface BattleField extends BaseForm {
+    int timeFieldAnimation = 3000;
+    int timeFirstOnTable = 1200;
+    int timeSecondOnTable = 1200;
+    int timeThirdOnTable = 2200;
+    int timeTurn = 7000;
+    int timeLoadMapAfterBattle = 8500;
 
     //1 hero
-    private static final Point onlyOneHero = new Point(970, 1000);
+    Point onlyOneHero = new Point(970, 1000);
     //2 heroes
-    private static final Point firstFrom2 = new Point(900,1000);
-    private static final Point secondFrom2 = new Point(1050, 1000);
+    Point firstFrom2 = new Point(900,1000);
+     Point secondFrom2 = new Point(1050, 1000);
     //3 heroes
-    private static final Point firstFrom3 = new Point(820, 1000);
-    private static final Point secondFrom3 = new Point(970, 1000);
-    private static final Point thirdFrom3 = new Point(1070, 1000);
+    Point firstFrom3 = new Point(820, 1000);
+    Point secondFrom3 = new Point(970, 1000);
+    Point thirdFrom3 = new Point(1070, 1000);
     //4 heroes
-    private static final Point firstFrom4 = new Point(750, 1000);
-    private static final Point secondFrom4 = new Point(900, 1000);
-    private static final Point thirdFrom4 = new Point(1050, 1000);
-    private static final Point fourthFrom4 = new Point(1170, 1000);
+    Point firstFrom4 = new Point(750, 1000);
+    Point secondFrom4 = new Point(900, 1000);
+    Point thirdFrom4 = new Point(1050, 1000);
+    Point fourthFrom4 = new Point(1170, 1000);
     //5 heroes
-    private static final Point firstFrom5 = new Point(750, 1000);
-    private static final Point secondFrom5 = new Point(850, 1000);
-    private static final Point thirdFrom5 = new Point(920, 1000);
-    private static final Point fourthFrom5 = new Point(1050, 1000);
-    private static final Point fifthFrom5 = new Point(1150, 1000);
+    Point firstFrom5 = new Point(750, 1000);
+    Point secondFrom5 = new Point(850, 1000);
+    Point thirdFrom5 = new Point(920, 1000);
+    Point fourthFrom5 = new Point(1050, 1000);
+    Point fifthFrom5 = new Point(1150, 1000);
     //6 heroes
-    private static final Point firstFrom6 = new Point(720, 1000);
-    private static final Point secondFrom6 = new Point(820, 1000);
-    private static final Point thirdFrom6 = new Point(900, 1000);
-    private static final Point fourthFrom6 = new Point(1000, 1000);
-    private static final Point fifthFrom6 = new Point(1080, 1000);
-    private static final Point sixthFrom6 = new Point(1200, 1000);
+    Point firstFrom6 = new Point(720, 1000);
+    Point secondFrom6 = new Point(820, 1000);
+    Point thirdFrom6 = new Point(900, 1000);
+    Point fourthFrom6 = new Point(1000, 1000);
+    Point fifthFrom6 = new Point(1080, 1000);
+    Point sixthFrom6 = new Point(1200, 1000);
     //table heroes position
-    private static final Point rightTablePosition = new Point(1150, 600);
-    private static final Point leftTablePosition = new Point(750, 600);
-    private static final Point turn = new Point(1560, 500);
+    Point rightTablePosition = new Point(1150, 600);
+    Point leftTablePosition = new Point(750, 600);
+    Point turn = new Point(1560, 500);
 
-    private static final Rectangle myNameLbl = new Rectangle(35, 930, 20, 5);
-    private static final Rectangle winLbl = new Rectangle(900, 1020, 100, 15);
-    private static final Rectangle firstAbility = new Rectangle(760, 460, 20, 20);
+    Rectangle myNameLbl = new Rectangle(35, 930, 20, 5);
+    Rectangle winLbl = new Rectangle(900, 1020, 100, 15);
+    Rectangle firstAbility = new Rectangle(760, 460, 20, 20);
 
-    private static final Image myNameLblStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "myNameLbl"), myNameLbl);
-    private static final Image winLblStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "winLbl"), winLbl);
-
-
-    private static Image firstAbilityObj;
+    Image myNameLblStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "myNameLbl"), myNameLbl);
+    Image winLblStr = new Image(PropertyReader.getProperty(PropertyReader.dataFilePath, "winLbl"), winLbl);
 
 
-    public static void opening(int heroCount, int first, int second, int third){
+
+    default void opening(int heroCount, int first, int second, int third){
+        Log.info("Put heroes on the table");
         waitSimilarPicture(myNameLblStr, myNameLbl);
         sleep(timeFieldAnimation);
 
@@ -76,7 +76,7 @@ public class BattleField extends BaseForm {
         }
     }
 
-    private static void heroOnTable(Point point, int millis){
+    default void heroOnTable(Point point, int millis){
         robot.move(point);
         sleep(150);
         robot.press();
@@ -87,7 +87,7 @@ public class BattleField extends BaseForm {
         sleep(millis);
     }
 
-    private static Point positions(int heroCount, int who){
+    default Point positions(int heroCount, int who){
         Point position = null;
         switch (heroCount){
             case 1:
@@ -177,19 +177,20 @@ public class BattleField extends BaseForm {
         return position;
     }
 
-    public static void turn(){
+    default void turn(){
         robot.move(turn);
         robot.clickAndClick();
     }
 
-    public static void acceptWin(){
+    default void acceptWin(){
         robot.clickAndClick();
         sleep(500);
         robot.clickAndClick();
         sleep(1000);
         robot.clickAndClick();
     }
-    public static boolean isWin(){
+    /*
+    default boolean isWin(){
         boolean isWin = isSimilar(winLblStr, winLbl);
         boolean isReadyToFight = isSimilar(firstAbilityObj, firstAbility);
         while(true){
@@ -200,25 +201,6 @@ public class BattleField extends BaseForm {
             }
             sleep(1000);
         }
-    }
-
-    public static void prepareBattle(){
-        sleep(timeTurn);
-        firstAbilityObj = robot.getImage(firstAbility);
-    }
-
-    public static boolean isReadyToFight(){
-        return isSimilar(firstAbilityObj, firstAbility);
-    }
-
-    public static boolean isReadyToFightWith10SecWaiting(){
-        for(int i = 0; i < 10; i++){
-            if(!isSimilar(firstAbilityObj, firstAbility)){
-                sleep(1000);
-            }
-        }
-        return isSimilar(firstAbilityObj, firstAbility);
-    }
-
+    }*/
 
 }

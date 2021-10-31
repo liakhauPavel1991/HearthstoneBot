@@ -1,20 +1,19 @@
-package forms;
+package monitorActions;
 
-import actions.Roboharth;
 import imageTools.Image;
 import imageTools.ImageTool;
 
 import java.awt.*;
 
-public class BaseForm {
-    protected static final int timeCommonAnimation = 1000;
-    protected static int waiting = 2000;
-    private static final int percentOfDifference = 10;
-    private static final int percentOfBrokenPixels = 5;
+interface BaseForm {
+    int timeCommonAnimation = 1000;
+    int waiting = 2000;
+    int percentOfDifference = 10;
+    int percentOfBrokenPixels = 5;
 
-    protected static Roboharth robot = new Roboharth();
+    Roboharth robot = new Roboharth();
 
-    public static void sleep(int millis){
+    default void sleep(int millis){
         try {
             Thread.sleep(millis);
         } catch (InterruptedException e) {
@@ -22,17 +21,17 @@ public class BaseForm {
         }
     }
 
-    protected static boolean isThatImageExist(String imgFromStorage, Rectangle img){
+    default boolean isThatImageExist(String imgFromStorage, Rectangle img){
         return robot.getImage(img).getAsEncodedString().equals(imgFromStorage);
     }
 
-    protected static boolean isSimilar(Image imgFromStorage, Rectangle img){
+    default boolean isSimilar(Image imgFromStorage, Rectangle img){
         byte[] findingImg = robot.getImage(img).byteData;
         byte[] storeImg = imgFromStorage.byteData;
         return ImageTool.differenceLessThan(percentOfDifference, percentOfBrokenPixels, findingImg, storeImg);
     }
 
-    protected static boolean wait(Image imgFromStorage, Rectangle img){
+    default boolean wait(Image imgFromStorage, Rectangle img){
         Image findingImg = robot.getImage(img);
         boolean isEquals = imgFromStorage.equals(findingImg);
 
@@ -47,7 +46,7 @@ public class BaseForm {
         return isEquals;
         }
 
-    protected static boolean wait(Image imgFromStorage, Rectangle img, int times){
+    default boolean wait(Image imgFromStorage, Rectangle img, int times){
         Image findingImg = robot.getImage(img);
         boolean isEquals = imgFromStorage.equals(findingImg);
 
@@ -62,7 +61,7 @@ public class BaseForm {
         return isEquals;
     }
 
-    protected static boolean waitSimilarPicture(String imgFromStorage, Rectangle img) {
+    default boolean waitSimilarPicture(String imgFromStorage, Rectangle img) {
         byte[] findingImg = robot.getImage(img).byteData;
         byte[] storeImg = new Image(Image.getImageFromString(imgFromStorage)).byteData;
         boolean isSimilar = ImageTool.differenceLessThan(10, 5, findingImg, storeImg);
@@ -78,7 +77,7 @@ public class BaseForm {
         return isSimilar;
     }
 
-    protected static void waitSimilarPicture(Image imgFromStorage, Rectangle img) {
+    default void waitSimilarPicture(Image imgFromStorage, Rectangle img) {
         byte[] findingImg = robot.getImage(img).byteData;
         byte[] storeImg = imgFromStorage.byteData;
 
@@ -88,7 +87,7 @@ public class BaseForm {
         }
     }
 
-    protected static void waitSimilarPicture(Image img1, Image img2, Rectangle find) {
+    default void waitSimilarPicture(Image img1, Image img2, Rectangle find) {
         byte[] findingImg = robot.getImage(find).byteData;
         byte[] storeImg1 = img1.byteData;
         byte[] storeImg2 = img2.byteData;

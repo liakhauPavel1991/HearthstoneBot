@@ -1,4 +1,4 @@
-package actions;
+package monitorActions;
 
 import imageTools.Image;
 import java.awt.*;
